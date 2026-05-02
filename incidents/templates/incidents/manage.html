@@ -1,0 +1,60 @@
+{% extends 'incidents/base.html' %}
+
+{% block content %}
+<section class="form-layout">
+  <div class="panel form-panel">
+    <p class="eyebrow">
+      <i class="fa-solid fa-shield-halved"></i>
+      Manage {{ incident.public_token }}
+    </p>
+
+    <h1>{{ incident.title }}</h1>
+
+    <p>{{ incident.description }}</p>
+
+    <p class="muted">
+      <i class="fa-solid fa-location-dot"></i>
+      {{ incident.location_name }} • {{ incident.created_at|date:'M d, Y H:i' }}
+    </p>
+
+    {% if incident.attachment %}
+      <p>
+        <a href="{{ incident.attachment.url }}"
+           target="_blank"
+           rel="noopener"
+           class="btn ghost">
+          <i class="fa-solid fa-paperclip"></i>
+          View attachment
+        </a>
+      </p>
+    {% endif %}
+
+    <form method="post" class="pretty-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+
+      <button class="btn primary big" type="submit">
+        <i class="fa-solid fa-floppy-disk"></i>
+        Save authority decision
+      </button>
+    </form>
+  </div>
+
+  <aside class="side-guide glass">
+    <h3>
+      <i class="fa-solid fa-clock-rotate-left"></i>
+      Status history
+    </h3>
+
+    {% for u in incident.updates.all %}
+      <div class="timeline-item">
+        <b>{{ u.get_status_display }}</b>
+        <small>{{ u.created_at|date:'M d, H:i' }}</small>
+        <p>{{ u.note }}</p>
+      </div>
+    {% empty %}
+      <p>No updates yet.</p>
+    {% endfor %}
+  </aside>
+</section>
+{% endblock %}

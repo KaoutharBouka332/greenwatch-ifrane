@@ -1,0 +1,54 @@
+{% extends 'incidents/base.html' %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <div class="eyebrow"><i class="fa-solid fa-snowflake"></i> Province of Ifrane • forest & water resilience</div>
+    <h1>Report environmental incidents instantly — no citizen login needed.</h1>
+    <p>GreenWatch helps citizens report forest fires, illegal logging, water leaks, pollution, drought impacts, and ecosystem damage while authorities validate and manage the response.</p>
+    <div class="hero-actions">
+      <a class="btn primary big" href="{% url 'report_incident' %}"><i class="fa-solid fa-paper-plane"></i> Submit Anonymous Report</a>
+      <a class="btn ghost big" href="{% url 'track' %}"><i class="fa-solid fa-location-crosshairs"></i> Track a Report</a>
+    </div>
+  </div>
+  <div class="hero-card glass">
+    <div class="radar"><i class="fa-solid fa-satellite-dish"></i></div>
+    <h3>Live environmental pulse</h3>
+    <div class="mini-grid">
+      <span><strong>{{ stats.total }}</strong>Total reports</span>
+      <span><strong>{{ stats.pending }}</strong>Pending</span>
+      <span><strong>{{ stats.verified }}</strong>Verified</span>
+      <span><strong>{{ stats.resolved }}</strong>Resolved</span>
+    </div>
+  </div>
+</section>
+<section class="cards four">
+  <div class="metric fire"><i class="fa-solid fa-fire"></i><span>Wildfire smoke</span><strong>Rapid alert</strong></div>
+  <div class="metric water"><i class="fa-solid fa-droplet"></i><span>Water systems</span><strong>Leak reports</strong></div>
+  <div class="metric forest"><i class="fa-solid fa-tree"></i><span>Forest health</span><strong>Degradation</strong></div>
+  <div class="metric snow"><i class="fa-solid fa-mountain-sun"></i><span>Seasonal water</span><strong>Planning</strong></div>
+</section>
+<section class="split">
+  <div class="panel">
+    <div class="section-head"><div><p class="eyebrow">Public verified map</p><h2>Validated incidents</h2></div></div>
+    <div id="map" class="map"></div>
+  </div>
+  <div class="panel">
+    <p class="eyebrow">Recent verified reports</p><h2>Community signal</h2>
+    <div class="incident-list">
+      {% for i in public_incidents %}
+      <div class="incident-row"><span class="status {{ i.status }}">{{ i.get_status_display }}</span><strong>{{ i.title }}</strong><small><i class="fa-solid fa-location-dot"></i> {{ i.location_name }}</small></div>
+      {% empty %}<p class="muted">No public verified reports yet. New citizen reports stay private until reviewed.</p>{% endfor %}
+    </div>
+  </div>
+</section>
+<section class="panel indicators">
+  <p class="eyebrow">Environmental indicators</p><h2>Monitoring dimensions</h2>
+  <div class="cards four">
+    {% for item in indicators %}<div class="indicator"><b>{{ item.icon }}</b><span>{{ item.name }}</span><strong>{{ item.value }}</strong><em>{{ item.status }}</em></div>{% empty %}
+    <div class="indicator"><b>💧</b><span>Water availability</span><strong>Good</strong><em>snowmelt season</em></div>
+    <div class="indicator"><b>🌲</b><span>Forest risk</span><strong>Moderate</strong><em>monitoring</em></div>
+    <div class="indicator"><b>🔥</b><span>Fire risk</span><strong>Low</strong><em>post-rainfall</em></div>
+    <div class="indicator"><b>🛰️</b><span>Authority review</span><strong>24h</strong><em>target</em></div>{% endfor %}
+  </div>
+</section>
+{% endblock %}

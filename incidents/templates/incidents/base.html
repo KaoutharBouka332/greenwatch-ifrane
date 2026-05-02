@@ -1,0 +1,40 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}GreenWatch Ifrane{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="aurora"></div>
+  <nav class="topbar">
+    <a class="brand" href="{% url 'home' %}"><span class="brand-icon"><i class="fa-solid fa-tree"></i></span><span>GreenWatch</span><small>Ifrane</small></a>
+    <div class="navlinks">
+      <a href="{% url 'home' %}"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="{% url 'report_incident' %}" class="hot"><i class="fa-solid fa-bullhorn"></i> Report</a>
+      <a href="{% url 'track' %}"><i class="fa-solid fa-magnifying-glass-location"></i> Track</a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'authority_dashboard' %}"><i class="fa-solid fa-shield-halved"></i> Authority</a>
+        <form method="post" action="{% url 'logout' %}" class="logout-form">{% csrf_token %}<button>Logout</button></form>
+      {% else %}
+        <a href="{% url 'login' %}"><i class="fa-solid fa-lock"></i> Authority Login</a>
+      {% endif %}
+    </div>
+  </nav>
+  {% if messages %}<div class="messages">{% for message in messages %}<div class="toast {{ message.tags }}">{{ message }}</div>{% endfor %}</div>{% endif %}
+  <main>{% block content %}{% endblock %}</main>
+  <footer>
+    <div><strong>GreenWatch Ifrane</strong><p>Anonymous environmental reporting and authority incident management MVP.</p></div>
+    <div class="footer-badges"><span><i class="fa-solid fa-lock"></i> RBAC</span><span><i class="fa-solid fa-map"></i> GIS-ready</span><span><i class="fa-solid fa-leaf"></i> SDG 13/15/6</span></div>
+  </footer>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>

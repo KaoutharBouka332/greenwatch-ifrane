@@ -1,0 +1,35 @@
+{% extends 'incidents/base.html' %}
+{% block title %}Report Incident{% endblock %}
+{% block content %}
+<section class="form-layout">
+  <div class="panel form-panel">
+    <p class="eyebrow"><i class="fa-solid fa-user-secret"></i> Anonymous citizen reporting</p>
+    <h1>Submit an environmental incident</h1>
+    <p class="muted">No login required. Click the map to select the exact incident location. Coordinates are saved automatically and are not shown to citizens.</p>
+
+    <div class="map-instructions">
+      <div><i class="fa-solid fa-map-location-dot"></i><strong> Choose location</strong><span>Click directly on the map where the incident happened.</span></div>
+      <button type="button" id="use-location" class="btn ghost"><i class="fa-solid fa-location-crosshairs"></i> Use my location</button>
+    </div>
+    <div id="map" class="map report-map"></div>
+    <div id="map-selected" class="map-selected hidden"><i class="fa-solid fa-check-circle"></i> Location selected successfully.</div>
+
+    <form method="post" enctype="multipart/form-data" class="pretty-form" id="incident-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn primary big" type="submit"><i class="fa-solid fa-paper-plane"></i> Send report securely</button>
+    </form>
+  </div>
+  <aside class="side-guide glass">
+    <h3><i class="fa-solid fa-map-location-dot"></i> Map legend</h3>
+    <ul>
+      <li><span class="legend-dot fire-dot"></span> Fire / smoke / wildfire risk</li>
+      <li><span class="legend-dot water-dot"></span> Water leak / drought / pollution</li>
+      <li><span class="legend-dot forest-dot"></span> Illegal logging / forest degradation</li>
+    </ul>
+    <h3><i class="fa-solid fa-circle-info"></i> Good reports include</h3>
+    <ul><li>Exact place or nearby landmark</li><li>Clear description and severity</li><li>Photo/video evidence if safe</li><li>Optional contact for follow-up</li></ul>
+    <div class="notice"><i class="fa-solid fa-shield"></i> Reports are private by default and only become public after authority validation.</div>
+  </aside>
+</section>
+{% endblock %}

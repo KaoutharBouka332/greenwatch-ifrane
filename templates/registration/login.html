@@ -1,0 +1,16 @@
+{% extends 'incidents/base.html' %}
+{% block title %}Authority Login{% endblock %}
+{% block content %}
+<section class="auth-shell">
+  <div class="auth-card glass">
+    <div class="eyebrow"><i class="fa-solid fa-shield-halved"></i> Restricted authority area</div>
+    <h1>Authority Login</h1>
+    <p class="muted">Citizens can report without login. Only verified authorities can manage incidents and statuses.</p>
+    <form method="post" class="pretty-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn primary" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

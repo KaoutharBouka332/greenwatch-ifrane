@@ -1,0 +1,4 @@
+{% extends 'incidents/base.html' %}
+{% block content %}
+<section class="auth-shell"><div class="auth-card glass success-card"><i class="fa-solid fa-circle-check huge"></i><h1>Report received</h1><p>Your report was submitted successfully and is waiting for authority review.</p><div class="token-box">Tracking code: <strong>{{ incident.public_token }}</strong></div><a class="btn primary" href="{% url 'track_detail' incident.public_token %}">Track status</a><a class="btn ghost" href="{% url 'home' %}">Back home</a></div></section>
+{% endblock %}
